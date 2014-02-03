@@ -4,7 +4,9 @@ ChangeLog:
 -Tarvittavat luokat kuten Verkko ja Node toteutettu ja toimii
 -Testatus vielä heikkoa, mutta testeinä toimivat käsin tehdyt verkot
 
+3.2
+-Algoritmit toimivat ja välttämätön verkon muodostus saatettu loppun
+ -WeightedNode tarvittiin Dijkstraa varten
+-Testatus vieläkin heikkoa, mutta testeinä toimivat käsin tehdyt verkot
 TODO
--Dijkstran algoritmi
--kattavampi testaus
--javadocin korjailua (?)
+-kattavampi testaus, puuttuu junitit

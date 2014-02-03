@@ -8,6 +8,7 @@ package verkko;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Verkon yksi solmu. 
@@ -29,6 +30,7 @@ public class Node implements Comparable<Node>{
     private boolean maali;
     private List<Node> naapurit;
     private Node edellinen;
+    private int paino=Integer.MAX_VALUE;
 
     public Node(int x, int y, int matkaMaaliin, int matkaAlkuun, boolean isObstacle, boolean alku, boolean maali) {
         this.x = x;
@@ -40,19 +42,89 @@ public class Node implements Comparable<Node>{
         this.maali = maali;
         naapurit=new ArrayList<>();
     }
-
-    public Node getEdellinen() {
-        return edellinen;
-    }
-
-    public void setEdellinen(Node edellinen) {
-        this.edellinen = edellinen;
-    }
     
     public Node(int x, int y) {
         this.x = x;
         this.y = y;
         naapurit=new ArrayList<>();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Node other = (Node) obj;
+        if (!Objects.equals(this.north, other.north)) {
+            return false;
+        }
+        if (!Objects.equals(this.east, other.east)) {
+            return false;
+        }
+        if (!Objects.equals(this.south, other.south)) {
+            return false;
+        }
+        if (!Objects.equals(this.west, other.west)) {
+            return false;
+        }
+        if (this.x != other.x) {
+            return false;
+        }
+        if (this.y != other.y) {
+            return false;
+        }
+        if (this.matkaMaaliin != other.matkaMaaliin) {
+            return false;
+        }
+        if (this.matkaAlkuun != other.matkaAlkuun) {
+            return false;
+        }
+        if (this.Obstacle != other.Obstacle) {
+            return false;
+        }
+        if (this.alku != other.alku) {
+            return false;
+        }
+        if (this.maali != other.maali) {
+            return false;
+        }
+        if (!Objects.equals(this.naapurit, other.naapurit)) {
+            return false;
+        }
+        if (!Objects.equals(this.edellinen, other.edellinen)) {
+            return false;
+        }
+        if (this.paino != other.paino) {
+            return false;
+        }
+        return true;
+    }
+    
+    
+    
+    public Node getEdellinen() {
+        return edellinen;
+    }
+    
+    public void setEdellinen(Node edellinen) {
+        this.edellinen = edellinen;
+    }
+
+    public int getPaino() {
+        return paino;
+    }
+
+    public void setPaino(int paino) {
+        this.paino = paino;
     }
     
     @Override

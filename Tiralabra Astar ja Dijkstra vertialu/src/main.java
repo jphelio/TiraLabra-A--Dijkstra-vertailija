@@ -1,5 +1,6 @@
 
 import Algorithms.Astar;
+import Algorithms.Dijkstra;
 import verkko.Verkko;
 
 /*
@@ -17,23 +18,29 @@ public class main {
     private static int[][] verkko2=new int[9][9];
     
     public static void main(String[] args) {
-        Verkko v1=new Verkko(7, 7, 2, 3, verkko);
+        Verkko v1=new Verkko(7, 7, 2, 3, verkko, true);
         verkko2[2][1]=1;
         verkko2[2][2]=1;
         verkko2[1][2]=1;
         verkko2[2][0]=1;
-        Verkko v2=new Verkko(7,7,0,0,verkko2);
-        Verkko v3=new Verkko(7,7,0,0,verkko);
+        Verkko v2=new Verkko(7,7,0,0,verkko2, true);
+        Verkko v3=new Verkko(7,7,0,0,verkko, true);
         
-        Astar a1=new Astar(v1);
-        Astar a2=new Astar(v2);
-        Astar a3=new Astar(v3);
+//        Astar a1=new Astar(v1);
+//        Astar a2=new Astar(v2);
+//        Astar a3=new Astar(v3);        
         
+//        a1.piirra();
+//        a2.piirra();
+//        a3.piirra();
         
+        Dijkstra d1=new Dijkstra(v1);
+        Dijkstra d2=new Dijkstra(v2);
+        Dijkstra d3=new Dijkstra(v3);
         
-        a1.piirra();
-        a2.piirra();
-        a3.piirra();
+        d1.piirra();
+        d2.piirra();
+        d3.piirra();
         
 //        Erinäisiä kokeiluja, toiminto siirretty astar luokkaan, kts piirra()
 //        for (int i = 0; i < 9; i++) {

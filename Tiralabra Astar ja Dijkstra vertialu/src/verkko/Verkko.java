@@ -21,13 +21,18 @@ public class Verkko {
     private int[][] verkko;
     private Node[][] nodeVerkko;
 
-    public Verkko(int maaliNodeX, int maaliNodeY, int alkuNodeX, int alkuNodeY, int[][] verkko) {
+    public Verkko(int maaliNodeX, int maaliNodeY, int alkuNodeX, int alkuNodeY, int[][] verkko, boolean isPainotettu) {
         this.maaliNodeX = maaliNodeX;
         this.maaliNodeY = maaliNodeY;
         this.alkuNodeX = alkuNodeX;
         this.alkuNodeY = alkuNodeY;
         this.verkko = verkko;
-        luoVerkko();
+        if(isPainotettu){
+            luoPainotettuVerkko();
+        }
+        else{
+            luoVerkko();
+        }
     }
 
     /**
@@ -38,6 +43,21 @@ public class Verkko {
         for(int i=0;i<verkko.length;i++){
             for(int j=0;j<verkko[i].length;j++){
                 nodeVerkko[i][j]=new Node(i, j);
+            }
+        }
+        for(int i=0;i<verkko.length;i++){
+            for(int j=0;j<verkko[i].length;j++){
+                paivitaNode(i, j);
+                naapuroi(nodeVerkko[i][j]);
+            }
+        }
+    }
+    
+    private void luoPainotettuVerkko(){
+        nodeVerkko=new WeightedNode[verkko.length][verkko[0].length];
+        for(int i=0;i<verkko.length;i++){
+            for(int j=0;j<verkko[i].length;j++){
+                nodeVerkko[i][j]=new WeightedNode(i, j);
             }
         }
         for(int i=0;i<verkko.length;i++){
