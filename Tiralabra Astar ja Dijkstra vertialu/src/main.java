@@ -1,6 +1,6 @@
 
-import Algorithms.Astar;
-import Algorithms.Dijkstra;
+import algoritmit.Astar;
+import algoritmit.Dijkstra;
 import verkko.Verkko;
 
 /*
@@ -25,14 +25,23 @@ public class main {
         verkko2[2][0]=1;
         Verkko v2=new Verkko(7,7,0,0,verkko2, true);
         Verkko v3=new Verkko(7,7,0,0,verkko, true);
+        Verkko v4=new Verkko(7, 7, 2, 3, verkko, false);
+        verkko2[2][1]=1;
+        verkko2[2][2]=1;
+        verkko2[1][2]=1;
+        verkko2[2][0]=1;
+        Verkko v5=new Verkko(7,7,0,0,verkko2, false);
+        Verkko v6=new Verkko(7,7,0,0,verkko, false);
         
-//        Astar a1=new Astar(v1);
-//        Astar a2=new Astar(v2);
-//        Astar a3=new Astar(v3);        
+        Astar a1=new Astar(v4);
+        Astar a2=new Astar(v5);
+        Astar a3=new Astar(v6);        
+
+        a1.piirra();
+        a2.piirra();
+        a3.piirra();
         
-//        a1.piirra();
-//        a2.piirra();
-//        a3.piirra();
+        System.out.println("----------------------------");
         
         Dijkstra d1=new Dijkstra(v1);
         Dijkstra d2=new Dijkstra(v2);

@@ -7,7 +7,7 @@
 package verkko;
 
 /**
- *
+ * Korvaa alkup Noden CompareTo metodin dijkstran algoritmin vaatimalla painojen vertailulla
  * @author Juhani Heliö
  */
 public class WeightedNode extends Node {

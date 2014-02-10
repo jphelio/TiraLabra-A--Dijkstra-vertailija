@@ -1,6 +1,6 @@
 package verkko;
 
-import Algorithms.Heuristic;
+import algoritmit.Heuristic;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -52,6 +52,11 @@ public class Verkko {
             }
         }
     }
+    
+    /**
+     * Luo painotetun verkon käyttäen WeightedNodeja 
+     * 
+     */
     
     private void luoPainotettuVerkko(){
         nodeVerkko=new WeightedNode[verkko.length][verkko[0].length];
