@@ -10,7 +10,7 @@ import verkko.Node;
 
 /**
  * Heuristiikka
- * Tällä hetkellä laskee lyhimmän matkan tämän solmun ja maalisolmun välillä käyttäen Pythagoraan lausetta. 
+ * Tällä hetkellä laskee lyhimmän matkan tämän solmun ja maalisolmun välillä. 
  * Ei välitä esteistä
  * @author Juhani Heliö
  */
@@ -20,8 +20,6 @@ public class Heuristic {
         int dumbHeurX=Math.abs(n.getX()-maali.getX());
         int dumbHeurY=Math.abs(n.getY()-maali.getY());
         
-        int dumbHeurResult=(int)Math.sqrt(Math.pow(dumbHeurX, 2)+Math.pow(dumbHeurY, 2));
-        
-        return dumbHeurResult;
+        return dumbHeurX+dumbHeurY+1;
     }
 }

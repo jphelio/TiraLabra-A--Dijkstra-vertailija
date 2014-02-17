@@ -10,7 +10,7 @@ package verkko;
  * Korvaa alkup Noden CompareTo metodin dijkstran algoritmin vaatimalla painojen vertailulla
  * @author Juhani Heliö
  */
-public class WeightedNode extends Node {
+public class WeightedNode extends Node{
 
     public WeightedNode(int x, int y, int matkaMaaliin, int matkaAlkuun, boolean isObstacle, boolean alku, boolean maali) {
         super(x, y, matkaMaaliin, matkaAlkuun, isObstacle, alku, maali);

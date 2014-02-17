@@ -1,4 +1,5 @@
 
+import GUI.MainWindow;
 import algoritmit.Astar;
 import algoritmit.Dijkstra;
 import verkko.Verkko;
@@ -18,6 +19,9 @@ public class main {
     private static int[][] verkko2=new int[9][9];
     
     public static void main(String[] args) {
+        
+        MainWindow m=new MainWindow();
+        
         Verkko v1=new Verkko(7, 7, 2, 3, verkko, true);
         verkko2[2][1]=1;
         verkko2[2][2]=1;

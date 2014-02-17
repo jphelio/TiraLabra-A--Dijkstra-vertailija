@@ -8,17 +8,19 @@ package algoritmit;
 
 import java.util.*;
 import tietorakenteet.NodeLista;
+import tietorakenteet.OmaPriorityLista;
+import tietorakenteet.PriorityNodeLista;
 import verkko.*;
 
 /**
- *
+ * 
  * @author Juhani Heliö
  */
 public class Dijkstra {
     
     private Verkko v;
     
-    private PriorityQueue<Node> nodeList;
+    private OmaPriorityLista nodeList;
     private NodeLista closedList;
     private NodeLista path;
     
@@ -28,7 +30,7 @@ public class Dijkstra {
         this.v=v;
         this.lyhyinPolku=0;
         
-        nodeList=new PriorityQueue<>();
+        nodeList=new OmaPriorityLista();
         closedList=new NodeLista();
         path=new NodeLista();
     }
@@ -37,9 +39,11 @@ public class Dijkstra {
      * laskee reitin dijkstran algoritmilla
      */
     
-    private void laskeReitti(){
+    public void laskeReitti(){
         nodeList.clear();
+        closedList.clear();
         nodeList.add(v.getAlkuNode());
+        v.getAlkuNode().setPaino(0);
         
         while(!nodeList.isEmpty()){
             Node current=nodeList.remove();
@@ -50,11 +54,14 @@ public class Dijkstra {
                 return;
             }
             
-            for(Node node : current.getNaapurit()){
-                if(!node.isObstacle()){
-                    int matka=current.getMatkaAlkuun()+(node.getMatkaAlkuun()-current.getMatkaAlkuun());
+            for(int i=0;i<current.getNaapurit().size();i++){
+                Node node=current.getNaapurit().get(i);
+                if(!node.isObstacle()&&!closedList.contains(node)){
+                    int matka=current.getMatkaAlkuun()+1;
                     if(matka<node.getPaino()){
+                        node.setEdellinen(current);
                         node.setPaino(matka);
+                        node.setMatkaAlkuun(matka);
                         nodeList.add(node);
                     }
                 }
@@ -70,12 +77,33 @@ public class Dijkstra {
         Node node=v.getMaaliNode();
         while(!node.equals(v.getAlkuNode())){
             PriorityQueue<Node> apulista=new PriorityQueue<>();
-            for(Node n : node.getNaapurit()){
+            for(int i=0;i<node.getNaapurit().size();i++){
+                Node n=node.getNaapurit().get(i);
                 apulista.add(n);
             }
             node=apulista.remove();
             path.add(node);
         }
+    }
+
+    public Verkko getV() {
+        return v;
+    }
+
+    public OmaPriorityLista getNodeList() {
+        return nodeList;
+    }
+
+    public NodeLista getClosedList() {
+        return closedList;
+    }
+
+    public NodeLista getPath() {
+        return path;
+    }
+
+    public int getLyhyinPolku() {
+        return lyhyinPolku;
     }
     
     /**
@@ -97,6 +125,12 @@ public class Dijkstra {
                 }
                 else if(path.contains(v.getNodeVerkko()[i][j])){
                     System.out.print("X");
+                }
+                else if(closedList.contains(v.getNodeVerkko()[i][j])){
+                    System.out.print("c");
+                }
+                else if(nodeList.contains(v.getNodeVerkko()[i][j])){
+                    System.out.print("o");
                 }
                 else{
                     System.out.print("=");

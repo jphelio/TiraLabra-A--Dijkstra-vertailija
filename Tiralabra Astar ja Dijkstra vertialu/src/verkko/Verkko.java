@@ -119,6 +119,11 @@ public class Verkko {
         paivitaNode(this.maaliNodeX, this.maaliNodeY);
     }
 
+    public void setTila(int x, int y, int tila){
+        verkko[x][y]=tila;
+        paivitaNode(x, y);
+    }
+    
     public int getMaaliNodeX() {
         return maaliNodeX;
     }

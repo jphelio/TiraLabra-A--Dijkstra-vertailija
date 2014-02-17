@@ -6,9 +6,8 @@
 
 package verkko;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+import tietorakenteet.NodeLista;
 
 /**
  * Verkon yksi solmu. 
@@ -28,7 +27,7 @@ public class Node implements Comparable<Node>{
     private boolean Obstacle;
     private boolean alku;
     private boolean maali;
-    private List<Node> naapurit;
+    private NodeLista naapurit;
     private Node edellinen;
     private int paino=Integer.MAX_VALUE;
 
@@ -40,13 +39,13 @@ public class Node implements Comparable<Node>{
         this.Obstacle = isObstacle;
         this.alku = alku;
         this.maali = maali;
-        naapurit=new ArrayList<>();
+        naapurit=new NodeLista();
     }
     
     public Node(int x, int y) {
         this.x = x;
         this.y = y;
-        naapurit=new ArrayList<>();
+        naapurit=new NodeLista();
     }
 
     @Override
@@ -129,10 +128,10 @@ public class Node implements Comparable<Node>{
     
     @Override
     public int compareTo(Node n){
-        if(this.matkaMaaliin<n.matkaMaaliin){
+        if(this.matkaMaaliin<n.getMatkaMaaliin()){
             return -1;
         }
-        else if(this.matkaMaaliin>n.matkaMaaliin){
+        else if(this.matkaMaaliin>n.getMatkaMaaliin()){
             return 1;
         }
         else{
@@ -140,11 +139,11 @@ public class Node implements Comparable<Node>{
         }
     }
 
-    public List<Node> getNaapurit() {
+    public NodeLista getNaapurit() {
         return naapurit;
     }
 
-    public void setNaapurit(List<Node> naapurit) {
+    public void setNaapurit(NodeLista naapurit) {
         this.naapurit = naapurit;
     }
 

@@ -19,30 +19,68 @@ public class NodeLista implements Iterable<Node>{
     private final int LISAYS=100;
     private final int DEFAULT_PITUUS=20;
     private int index;
+    private int montakoArvoa; 
 
     public NodeLista() {
         lista=new Node[DEFAULT_PITUUS];
         index=0;
+        montakoArvoa=0;
+    }
+
+    public void setMontakoArvoa(int montakoArvoa) {
+        this.montakoArvoa = montakoArvoa;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public void setLista(Node[] lista) {
+        this.lista = lista;
+    }
+
+    public int getLISAYS() {
+        return LISAYS;
+    }
+
+    public int getDEFAULT_PITUUS() {
+        return DEFAULT_PITUUS;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public int getMontakoArvoa() {
+        return montakoArvoa;
     }
     
     public void add(Node n){
+        montakoArvoa++;
         if(index<lista.length){
             lista[index]=n;
             index++;
         }
         else{
-            Node[] apulista=new Node[lista.length+LISAYS];
-            for(int i=0;i<lista.length;i++){
-                apulista[i]=lista[i];
-            }
-            lista=apulista;
+            listanPidennys(lista);
+            add(n);
         }
     }
     
+    public void listanPidennys(Node[] lista){
+        Node[] apulista=new Node[lista.length+LISAYS];
+            for(int i=0;i<this.lista.length;i++){
+                apulista[i]=this.lista[i];
+            }
+            this.lista=apulista;
+    }
+    
     public boolean contains(Node n){
-        for(int i=(lista.length-1); i>=0 ;i--){
-            if(n.equals(lista[i])){
-                return true;
+        if(montakoArvoa!=0){
+            for(int i=(lista.length-1); i>=0 ;i--){
+                if(n.equals(lista[i])){
+                    return true;
+                }
             }
         }
         return false;
@@ -60,19 +98,33 @@ public class NodeLista implements Iterable<Node>{
         return lista;
     }
     
+    public int size(){
+        return montakoArvoa;
+    }
+    
+    public boolean isEmpty(){
+        if(montakoArvoa==0){
+            return true;
+        }
+        return false;
+    }
+    
     public boolean remove(Node n){
         int apu=0;
         boolean loytyi=false;
-        for(int i=0;i<lista.length;i++){
-            if(lista[i].equals(n)){
-                lista[i]=null;
-                loytyi=true;
+        if(montakoArvoa!=0){
+            montakoArvoa--;
+            for(int i=0;i<montakoArvoa;i++){
+                if(lista[i].equals(n)){
+                    lista[i]=null;
+                    loytyi=true;
+                }
+                apu=i;
+                i+=lista.length;
             }
-            apu=i;
-            i+=lista.length;
-        }
-        for(int i=apu;i<lista.length-1;i++){
-            lista[i]=lista[i+1];
+            for(int i=apu;i<lista.length-1;i++){
+                lista[i]=lista[i+1];
+            }
         }
         return loytyi;
     }

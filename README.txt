@@ -9,4 +9,6 @@ ChangeLog:
  -WeightedNode tarvittiin Dijkstraa varten
 -Testatus vieläkin heikkoa, mutta testeinä toimivat käsin tehdyt verkot
 TODO
--kattavampi testaus, puuttuu junitit
+17.2
+-OmaPriorityQueue ei toimi vielä oikein, testejä ei ola ja käyttöiittymä kaipaa paranatamista.
+-NodeLista toimii oikein

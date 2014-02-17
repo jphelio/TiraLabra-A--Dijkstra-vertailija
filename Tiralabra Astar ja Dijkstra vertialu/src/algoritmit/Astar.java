@@ -45,9 +45,10 @@ public class Astar {
             Node current=openList.remove();
             closedList.add(current);
             
-            for(Node node : current.getNaapurit()){
+            for(int i=0;i<current.getNaapurit().size();i++){
+                Node node=current.getNaapurit().get(i);
                 if(!closedList.contains(node)&&!node.isObstacle()){
-                    if(!openList.contains(node) || node.getMatkaAlkuun()<current.getMatkaAlkuun()){
+                    if(!openList.contains(node) || node.getMatkaMaaliin()<current.getMatkaMaaliin()+1){
                         node.setEdellinen(current);
                         if(!openList.contains(node)){
                             openList.add(node);
@@ -72,6 +73,26 @@ public class Astar {
         }
         return lyhinPolku+=n.getMatkaMaaliin();
     }
+
+    public Verkko getV() {
+        return v;
+    }
+
+    public NodeLista getClosedList() {
+        return closedList;
+    }
+
+    public PriorityQueue<Node> getOpenList() {
+        return openList;
+    }
+
+    public NodeLista getPath() {
+        return path;
+    }
+
+    public int getLyhinPolku() {
+        return lyhinPolku;
+    }
     
     
     /**
@@ -92,6 +113,12 @@ public class Astar {
                 }
                 else if(path.contains(v.getNodeVerkko()[i][j])){
                     System.out.print("X");
+                }
+                else if(closedList.contains(v.getNodeVerkko()[i][j])){
+                    System.out.print("c");
+                }
+                else if(openList.contains(v.getNodeVerkko()[i][j])){
+                    System.out.print("o");
                 }
                 else{
                     System.out.print("=");
