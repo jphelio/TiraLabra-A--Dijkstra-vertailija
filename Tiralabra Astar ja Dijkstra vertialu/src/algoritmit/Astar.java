@@ -9,6 +9,7 @@ import verkko.Node;
 import verkko.Verkko;
 import java.util.*;
 import tietorakenteet.NodeLista;
+import tietorakenteet.OmaPriorityLista;
 
 /**
  * A* algoritmi ja sen apumetodit
@@ -18,7 +19,7 @@ public class Astar {
     private Verkko v;
     
     private NodeLista closedList;
-    private PriorityQueue<Node> openList;
+    private OmaPriorityLista openList;
     
     private NodeLista path;
     
@@ -28,7 +29,7 @@ public class Astar {
         this.v = v;
         
         closedList=new NodeLista();
-        openList=new PriorityQueue<>();
+        openList=new OmaPriorityLista();
         path=new NodeLista();
     }
     
@@ -45,6 +46,10 @@ public class Astar {
             Node current=openList.remove();
             closedList.add(current);
             
+            if(current.equals(v.getMaaliNode())){
+                return lyhinReitti(v.getMaaliNode());
+            }
+            
             for(int i=0;i<current.getNaapurit().size();i++){
                 Node node=current.getNaapurit().get(i);
                 if(!closedList.contains(node)&&!node.isObstacle()){
@@ -57,7 +62,8 @@ public class Astar {
                 }
             }
         }
-        return lyhinReitti(v.getMaaliNode());
+        return -1;
+        
     }
     
     /**
@@ -82,7 +88,7 @@ public class Astar {
         return closedList;
     }
 
-    public PriorityQueue<Node> getOpenList() {
+    public OmaPriorityLista getOpenList() {
         return openList;
     }
 

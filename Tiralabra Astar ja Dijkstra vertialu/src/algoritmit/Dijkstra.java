@@ -9,11 +9,10 @@ package algoritmit;
 import java.util.*;
 import tietorakenteet.NodeLista;
 import tietorakenteet.OmaPriorityLista;
-import tietorakenteet.PriorityNodeLista;
 import verkko.*;
 
 /**
- * 
+ * Dijkstran algoritmi
  * @author Juhani Heliö
  */
 public class Dijkstra {

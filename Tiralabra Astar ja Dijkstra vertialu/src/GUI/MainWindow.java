@@ -16,7 +16,7 @@ import javax.swing.*;
 import verkko.Verkko;
 
 /**
- *
+ * Luo näkymän jossa A* ja Dijkstra ratkaisevat verkon
  * @author Juhani Heliö
  */
 public class MainWindow extends JFrame{
@@ -183,6 +183,9 @@ public class MainWindow extends JFrame{
 
                     @Override
                     public void mouseReleased(MouseEvent e) {
+                        if(!e.getComponent().getBackground().equals(ESTE)){
+                            e.getComponent().setBackground(ESTE);
+                        }
                     }
 
                     @Override
@@ -200,7 +203,11 @@ public class MainWindow extends JFrame{
                     public void mousePressed(MouseEvent e) {}
 
                     @Override
-                    public void mouseReleased(MouseEvent e) {}
+                    public void mouseReleased(MouseEvent e) {
+                        if(!e.getComponent().getBackground().equals(ESTE)){
+                            e.getComponent().setBackground(ALKU);
+                        }
+                    }
 
                     @Override
                     public void mouseEntered(MouseEvent e) {}
@@ -218,7 +225,8 @@ public class MainWindow extends JFrame{
         this.add(mainPanel);
         
         this.pack();
-        this.setSize(200, 200);
+        this.setSize(500, 300);
+        this.setLocation(400, 400);
         this.setVisible(true);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         

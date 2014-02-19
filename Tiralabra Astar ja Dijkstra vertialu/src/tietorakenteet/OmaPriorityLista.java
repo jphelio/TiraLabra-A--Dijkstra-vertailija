@@ -9,7 +9,7 @@ package tietorakenteet;
 import verkko.Node;
 
 /**
- *
+ * Oma PriorityQueuen tapainen jono
  * @author Juhani Heliö
  */
 public class OmaPriorityLista {
@@ -35,17 +35,15 @@ public class OmaPriorityLista {
         apuhead=head;
         apuhead=apuhead.getNext();
         head.setNext(null);
-        head=null;
         head=apuhead;
-        pointer=apuhead;
         apuhead=null;
         return apu;
     }
     
     public void add(Node n){
+        pointer=head;
         if(head==null){
             head=new LinkedNode(null, n);
-            pointer=head;
             size++;
             return;
         }
@@ -60,23 +58,33 @@ public class OmaPriorityLista {
             size++;
             return;
         }
-        while(pointer!=null&&pointer.getNext()!=null){
-            if(n.compareTo(pointer.getNext().getData())>0){
-                pointer=pointer.getNext();
+        while(pointer!=null){
+            if(pointer.getNext()==null){
+                pointer.setNext(new LinkedNode(null, n));
+                size++;
+                return;
             }
-            else{
+            else if(n.compareTo(pointer.getData())<0){
+                head=new LinkedNode(pointer, n);
+                size++;
+                return;
+            }
+            else if(n.compareTo(pointer.getNext().getData())<=0){
                 LinkedNode apu=new LinkedNode(pointer.getNext(), n);
                 pointer.setNext(apu);
                 size++;
-                pointer=head;
                 return;
+            }
+            
+            else{
+                pointer=pointer.getNext();
             }
         }
     }
     
     public boolean contains(Node n){
-        while(pointer!=null&&pointer.getNext()!=null){
-            if(n.equals(pointer.getNext().getData())){
+        while(pointer!=null){
+            if(n.equals(pointer.getData())){
                 pointer=head;
                 return true;
             }

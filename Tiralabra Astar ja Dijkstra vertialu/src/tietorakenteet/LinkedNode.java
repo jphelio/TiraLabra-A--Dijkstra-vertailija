@@ -9,7 +9,7 @@ package tietorakenteet;
 import verkko.Node;
 
 /**
- *
+ * LinkedNode, johon voi tallettaa verkon yhden Noden. Käytetään muodostamaan OmaPrioritylista
  * @author Juhani Heliö
  */
 public class LinkedNode {
