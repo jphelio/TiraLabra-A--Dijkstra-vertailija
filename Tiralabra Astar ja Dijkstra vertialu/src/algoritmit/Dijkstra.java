@@ -8,7 +8,7 @@ package algoritmit;
 
 import java.util.*;
 import tietorakenteet.NodeLista;
-import tietorakenteet.OmaPriorityLista;
+import tietorakenteet.OmaPriorityMinHeap;
 import verkko.*;
 
 /**
@@ -19,7 +19,7 @@ public class Dijkstra {
     
     private Verkko v;
     
-    private OmaPriorityLista nodeList;
+    private OmaPriorityMinHeap nodeList;
     private NodeLista closedList;
     private NodeLista path;
     
@@ -27,9 +27,9 @@ public class Dijkstra {
     
     public Dijkstra(Verkko v){
         this.v=v;
-        this.lyhyinPolku=0;
+        this.lyhyinPolku=1;
         
-        nodeList=new OmaPriorityLista();
+        nodeList=new OmaPriorityMinHeap();
         closedList=new NodeLista();
         path=new NodeLista();
     }
@@ -81,6 +81,7 @@ public class Dijkstra {
                 apulista.add(n);
             }
             node=apulista.remove();
+            lyhyinPolku++;
             path.add(node);
         }
     }
@@ -89,7 +90,7 @@ public class Dijkstra {
         return v;
     }
 
-    public OmaPriorityLista getNodeList() {
+    public OmaPriorityMinHeap getNodeList() {
         return nodeList;
     }
 

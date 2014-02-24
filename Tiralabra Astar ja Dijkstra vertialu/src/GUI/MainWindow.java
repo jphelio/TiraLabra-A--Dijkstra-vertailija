@@ -8,8 +8,10 @@ package GUI;
 
 import algoritmit.Astar;
 import algoritmit.Dijkstra;
+import algoritmit.Heuristic;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
@@ -26,12 +28,16 @@ public class MainWindow extends JFrame{
     private JPanel dijkstraPanel=new JPanel();
     private JPanel[][] astarPanelGrid;
     private JPanel[][] dijkstraPanelGrid;
-    private int[][] verkko=new int[10][10];
-    private int[][] verkko2=new int[10][10];
+    private JLabel astarAikalabel=new JLabel();
+    private JLabel dijkstraAikalabel=new JLabel();
+    private int[][] verkko=new int[50][50];
+    private int[][] verkko2=new int[50][50];
     private Astar astar;
     private Dijkstra dijkstra;
     private int x;
     private int y;
+    private long astarAika=0;
+    private long dijkstraAika=0;
     
     private final Color ALKU=Color.RED;
     private final Color MAALI=Color.GREEN;
@@ -44,8 +50,8 @@ public class MainWindow extends JFrame{
     
     
     public MainWindow(){
-        astarPanelGrid=new JPanel[10][10];
-        dijkstraPanelGrid=new JPanel[10][10];
+        astarPanelGrid=new JPanel[50][50];
+        dijkstraPanelGrid=new JPanel[50][50];
         
         verkko[6][4]=1;
         verkko[6][5]=1;
@@ -83,8 +89,8 @@ public class MainWindow extends JFrame{
         verkko2[1][0]=1;
         verkko2[3][8]=1;
         
-        astar=new Astar(new Verkko(2,7,9,0,verkko,false));
-        dijkstra=new Dijkstra(new Verkko(1,8,9,0,verkko2,true));
+        astar=new Astar(new Verkko(0,49,49,49,verkko,false));
+        dijkstra=new Dijkstra(new Verkko(0,49,49,49,verkko2,true));
         
         teeGUI();
     }
@@ -103,7 +109,11 @@ public class MainWindow extends JFrame{
     }
     
     public void astarVerkkoVarita(){
+        astarAika=System.nanoTime();
         astar.laskeReitti();
+        astarAika=System.nanoTime()-astarAika;
+        astarAika=astarAika/1000000;
+        astarAikalabel.setText("A*-algoritmi: "+astarAika+" ms, matka: "+astar.getLyhinPolku()+" heuristic: "+Heuristic.matka(astar.getV().getAlkuNode(), astar.getV().getMaaliNode()));
         for (int i = 0; i < astarPanelGrid.length; i++) {
             for (int j = 0; j < astarPanelGrid[0].length; j++) {
                 if(astar.getV().getNodeVerkko()[i][j].isObstacle()){
@@ -128,7 +138,11 @@ public class MainWindow extends JFrame{
     }
     
     public void dijkstraVerkkoVarita(){
+        dijkstraAika=System.nanoTime();
         dijkstra.laskeReitti();
+        dijkstraAika=System.nanoTime()-dijkstraAika;
+        dijkstraAika=dijkstraAika/1000000;
+        dijkstraAikalabel.setText("Dijkstran algoritmi: "+dijkstraAika+" ms, matka: "+dijkstra.getLyhyinPolku()+" heuristic: "+Heuristic.matka(astar.getV().getAlkuNode(), astar.getV().getMaaliNode()));
         for (int i = 0; i < dijkstraPanelGrid.length; i++) {
             for (int j = 0; j < dijkstraPanelGrid[0].length; j++) {
                 if(dijkstra.getV().getNodeVerkko()[i][j].isObstacle()){
@@ -153,7 +167,9 @@ public class MainWindow extends JFrame{
     }
     
     private void teeGUI(){
-        mainPanel.setLayout(new GridLayout(1, 2));
+        GroupLayout l=new GroupLayout(mainPanel);
+        mainPanel.setLayout(l);
+        
         astarPanel.setLayout(new GridLayout(astarPanelGrid.length, astarPanelGrid[0].length));
         dijkstraPanel.setLayout(new GridLayout(dijkstraPanelGrid.length, dijkstraPanelGrid[0].length));
         
@@ -173,63 +189,101 @@ public class MainWindow extends JFrame{
         
         for(x=0; x<dijkstraPanelGrid.length; x++){
             for(y=0; y<dijkstraPanelGrid[0].length; y++){
-                astarPanelGrid[x][y].addMouseListener(new MouseListener() {
-
-                    @Override
-                    public void mouseClicked(MouseEvent e) {}
-
-                    @Override
-                    public void mousePressed(MouseEvent e) {}
-
+                astarPanelGrid[x][y].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseReleased(MouseEvent e) {
-                        if(!e.getComponent().getBackground().equals(ESTE)){
-                            e.getComponent().setBackground(ESTE);
+                        if(!e.getComponent().getBackground().equals(ALKU)&&!e.getComponent().getBackground().equals(MAALI)){
+                            if(!e.getComponent().getBackground().equals(ESTE)){
+                                e.getComponent().setBackground(ESTE);
+                            }
+                            else if(e.getComponent().getBackground().equals(ESTE)){
+                                e.getComponent().setBackground(TYHJA);
+                            }
                         }
+                        luoVerkkoAstar();
                     }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {}
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {}
                 });
-                dijkstraPanelGrid[x][y].addMouseListener(new MouseListener() {
-
-                    @Override
-                    public void mouseClicked(MouseEvent e) {}
-
-                    @Override
-                    public void mousePressed(MouseEvent e) {}
-
+                
+                dijkstraPanelGrid[x][y].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseReleased(MouseEvent e) {
-                        if(!e.getComponent().getBackground().equals(ESTE)){
-                            e.getComponent().setBackground(ALKU);
+                        if(!e.getComponent().getBackground().equals(ALKU)&&!e.getComponent().getBackground().equals(MAALI)){
+                            if(!e.getComponent().getBackground().equals(ESTE)){
+                                e.getComponent().setBackground(ESTE);
+                            }
+                            else if(e.getComponent().getBackground().equals(ESTE)){
+                                e.getComponent().setBackground(TYHJA);
+                            }
                         }
+                        luoVerkkoDijkstra();
                     }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {}
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {}
                 });
             }
         }
         
         varitaRuudut();
-        mainPanel.add(astarPanel);
-        mainPanel.add(dijkstraPanel);
+        
+        GroupLayout.ParallelGroup astarX=l.createParallelGroup();
+        astarX.addComponent(astarPanel);
+        astarX.addComponent(astarAikalabel);
+        
+        GroupLayout.ParallelGroup dijkstraX=l.createParallelGroup();
+        dijkstraX.addComponent(dijkstraPanel);
+        dijkstraX.addComponent(dijkstraAikalabel);
+        
+        GroupLayout.SequentialGroup rootX=l.createSequentialGroup();
+        rootX.addGroup(astarX);
+        rootX.addGroup(dijkstraX);
+        
+        l.setHorizontalGroup(rootX);
+        
+        GroupLayout.SequentialGroup astarY=l.createSequentialGroup();
+        astarY.addComponent(astarPanel);
+        astarY.addComponent(astarAikalabel);
+        
+        GroupLayout.SequentialGroup dijkstraY=l.createSequentialGroup();
+        dijkstraY.addComponent(dijkstraPanel);
+        dijkstraY.addComponent(dijkstraAikalabel);
+        
+        GroupLayout.ParallelGroup rootY=l.createParallelGroup();
+        rootY.addGroup(astarY);
+        rootY.addGroup(dijkstraY);
+        
+        l.setVerticalGroup(rootY);
         
         this.add(mainPanel);
         
         this.pack();
-        this.setSize(500, 300);
         this.setLocation(400, 400);
         this.setVisible(true);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
+    }
+    
+    private void luoVerkkoAstar(){
+        verkko=new int[verkko.length][verkko[0].length];
+        for(int i=0;i<verkko.length;i++){
+            for(int j=0;j<verkko[0].length;j++){
+                if(astarPanelGrid[i][j].getBackground().equals(ESTE)){
+                    verkko[i][j]=1;
+                }
+            }
+        }
+        astar=new Astar(new Verkko(astar.getV().getMaaliNodeX(),astar.getV().getMaaliNodeY(),astar.getV().getAlkuNodeX(),astar.getV().getAlkuNodeY(),verkko,false));
+        astarVerkkoVarita();
+    }
+    
+    private void luoVerkkoDijkstra(){
+        verkko2=new int[verkko2.length][verkko2[0].length];
+        for(int i=0;i<verkko2.length;i++){
+            for(int j=0;j<verkko2[0].length;j++){
+                if(dijkstraPanelGrid[i][j].getBackground().equals(ESTE)){
+                    verkko2[i][j]=1;
+                }
+            }
+        }
+        dijkstra=new Dijkstra(new Verkko(dijkstra.getV().getMaaliNodeX(),dijkstra.getV().getMaaliNodeY(),dijkstra.getV().getAlkuNodeX(),dijkstra.getV().getAlkuNodeY(),verkko2,true));
+        dijkstraVerkkoVarita();
     }
     
     private void varitaRuudut(){

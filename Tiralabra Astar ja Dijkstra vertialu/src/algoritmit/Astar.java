@@ -7,9 +7,8 @@ package algoritmit;
 
 import verkko.Node;
 import verkko.Verkko;
-import java.util.*;
 import tietorakenteet.NodeLista;
-import tietorakenteet.OmaPriorityLista;
+import tietorakenteet.OmaPriorityMinHeap;
 
 /**
  * A* algoritmi ja sen apumetodit
@@ -19,7 +18,7 @@ public class Astar {
     private Verkko v;
     
     private NodeLista closedList;
-    private OmaPriorityLista openList;
+    private OmaPriorityMinHeap openList;
     
     private NodeLista path;
     
@@ -29,7 +28,7 @@ public class Astar {
         this.v = v;
         
         closedList=new NodeLista();
-        openList=new OmaPriorityLista();
+        openList=new OmaPriorityMinHeap();
         path=new NodeLista();
     }
     
@@ -44,17 +43,19 @@ public class Astar {
         
         while(!openList.isEmpty()){
             Node current=openList.remove();
-            closedList.add(current);
-            
             if(current.equals(v.getMaaliNode())){
                 return lyhinReitti(v.getMaaliNode());
             }
             
+            closedList.add(current);
             for(int i=0;i<current.getNaapurit().size();i++){
                 Node node=current.getNaapurit().get(i);
                 if(!closedList.contains(node)&&!node.isObstacle()){
-                    if(!openList.contains(node) || node.getMatkaMaaliin()<current.getMatkaMaaliin()+1){
+                    int matkaAlkuun=current.getMatkaAlkuun()+1;
+                    if(!openList.contains(node) || matkaAlkuun<current.getMatkaAlkuun()){
                         node.setEdellinen(current);
+                        node.setMatkaAlkuun(matkaAlkuun);
+                        node.setMatkaMaaliin(node.getMatkaAlkuun()+Heuristic.matka(node, v.getMaaliNode()));
                         if(!openList.contains(node)){
                             openList.add(node);
                         }
@@ -77,7 +78,11 @@ public class Astar {
             path.add(n);
             lyhinReitti(n.getEdellinen());
         }
-        return lyhinPolku+=n.getMatkaMaaliin();
+        return lyhinPolku++;
+    }
+
+    public void setV(Verkko v) {
+        this.v = v;
     }
 
     public Verkko getV() {
@@ -88,7 +93,7 @@ public class Astar {
         return closedList;
     }
 
-    public OmaPriorityLista getOpenList() {
+    public OmaPriorityMinHeap getOpenList() {
         return openList;
     }
 
